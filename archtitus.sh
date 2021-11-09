@@ -6,6 +6,13 @@
 preinstal is now complete
 "
 
+arch-chroot /mnt /root/ArchTitus/test.sh
+
+    echo "
+Test is now complete
+"
+
+
 #    arch-chroot /mnt /root/ArchTitus/1-setup.sh
 #    source /mnt/root/ArchTitus/install.conf
 #    arch-chroot /mnt /usr/bin/runuser -u $username -- /home/$username/ArchTitus/2-user.sh
