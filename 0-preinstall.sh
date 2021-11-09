@@ -18,7 +18,7 @@ reflector -c $iso -f 5 -l 20 --verbose --sort rate --save /etc/pacman.d/mirrorli
 
 
 #MAKE MOUNT DIRECTORY
-#mkdir /mnt
+mkdir /mnt
 
 
 #FORMAT DISK
