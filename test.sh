@@ -11,7 +11,7 @@ hwclock --systohc
 
 #Set language and set locale
 echo "-------------------------------------------------"
-echo "       Setup Language to US and set locale       "
+echo "       Setup Language to NZ and set locale       "
 echo "-------------------------------------------------"
 sed -i 's/^#en_NZ.UTF-8 UTF-8/en_NZ.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
@@ -27,6 +27,6 @@ localectl --no-ask-password set-locale LANG="en_NZ.UTF-8" LC_TIME="en_NZ.UTF-8"
 #    grub-install --boot-directory=/mnt/boot ${DISK}
 #fi
 
-echo"
+echo "
 	Test Complete
 	"
