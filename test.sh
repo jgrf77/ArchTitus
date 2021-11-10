@@ -67,7 +67,7 @@ case "$proc_type" in
 esac	
 
 #Install grub (BIOS ONLY)
-grub-install --target=i386-pc /dev/${DISK}
+grub-install --target=i386-pc /dev/sda #need to make generic
 #Generate grub configuration
 grub-mkconfig -o /boot/grub/grub.cfg
 
