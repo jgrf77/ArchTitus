@@ -1,6 +1,7 @@
 #!/bin/bash
 
-#A script for testing components of other scripts
+#Set variable SCRIPT_DIR
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 
 #UPDATE MIRROR LIST
@@ -76,6 +77,9 @@ echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
 
 #Check fstab: cat /mnt/etc/fstab
+
+#Copy install script to new Arch install
+cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
 
 #Chroot into Arch install
 #arch-chroot /mnt
