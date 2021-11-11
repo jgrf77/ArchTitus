@@ -1,7 +1,17 @@
 #!/bin/bash
 
+##################################################
+#		    Variables 			 #
+##################################################
+
 #Set variable SCRIPT_DIR
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+
+
+##################################################
+#		    Script 			 #
+##################################################
 
 echo "--------------------------------------"
 echo "   Optimising Pacman for Downloads    "
@@ -33,7 +43,7 @@ echo "-------------------------------------------------"
 lsblk
 
 #Prompt user to select disk to be partitioned and set as variable DISK
-echo "Please enter disk to work on: (example /dev/sda)"
+echo "Please enter disk to work on: (example sda)"
 read DISK
 
 #Prompt user response and store as variable formatdisk
