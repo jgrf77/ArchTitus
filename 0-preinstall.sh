@@ -56,9 +56,9 @@ y|Y|yes|Yes|YES)
 cfdisk
 ;;
 *) echo "you have declined disc formatting"
-echo "Your partition table is now:
-"
+echo "Your partition table remains:"
 fdisk -l
+exit
 ;;
 esac
 clear
