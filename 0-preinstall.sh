@@ -1,135 +1,90 @@
-#!/usr/bin/env bash
-#-------------------------------------------------------------------------
-#   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-#  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-#  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-#  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-#  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-#  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
-#-------------------------------------------------------------------------
+#!/bin/bash
+
+#Set variable SCRIPT_DIR
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-echo "-------------------------------------------------"
-echo "Setting up mirrors for optimal download          "
-echo "-------------------------------------------------"
+
+echo "--------------------------------------"
+echo "   Optimising Pacman for Downloads    "
+echo "--------------------------------------"
+#UPDATE MIRROR LIST
+#Look up country iso-code with ifconfig.co and set as variable iso
 iso=$(curl -4 ifconfig.co/country-iso)
-timedatectl set-ntp true
-pacman -S --noconfirm pacman-contrib terminus-font
-setfont ter-v22b
-sed -i 's/^#Para/Para/' /etc/pacman.conf
-pacman -S --noconfirm reflector rsync grub
+
+#create a backup of the mirrorlist
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-echo -e "-------------------------------------------------------------------------"
-echo -e "   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗"
-echo -e "  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝"
-echo -e "  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗"
-echo -e "  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║"
-echo -e "  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║"
-echo -e "  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝"
-echo -e "-------------------------------------------------------------------------"
-echo -e "-Setting up $iso mirrors for faster downloads"
-echo -e "-------------------------------------------------------------------------"
 
-reflector -a 48 -c $iso -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
-mkdir /mnt
+#Install reflector and rsync
+pacman -S reflector rsync --noconfirm --needed
 
+#scan the 20 most recently updated mirrors from country ($iso) and update mirrorlist to contain the 5 fastest sorted rate (speed)
+reflector -c $iso -f 5 -l 20 --verbose --sort rate --save /etc/pacman.d/mirrorlist
 
+echo "--------------------------------------"
+echo "   Preparing for disk partitioning    "
+echo "--------------------------------------"
+#Install disk partitioning utilities
 echo -e "\nInstalling prereqs...\n$HR"
-pacman -S --noconfirm gptfdisk btrfs-progs
+pacman -S --noconfirm --needed gptfdisk btrfs-progs
 
+#List the disk partition table
 echo "-------------------------------------------------"
-echo "-------select your disk to format----------------"
+echo "-------Select your disk to format----------------"
 echo "-------------------------------------------------"
 lsblk
+
+#Prompt user to select disk to be partitioned and set as variable DISK
 echo "Please enter disk to work on: (example /dev/sda)"
 read DISK
+
+#Prompt user response and store as variable formatdisk
 echo "THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK"
 read -p "are you sure you want to continue (Y/N):" formatdisk
+
+#If $formatdisk is yes then run disc format commands
 case $formatdisk in
-
 y|Y|yes|Yes|YES)
-echo "--------------------------------------"
-echo -e "\nFormatting disk...\n$HR"
-echo "--------------------------------------"
-
-# disk prep
-sgdisk -Z ${DISK} # zap all on disk
-sgdisk -a 2048 -o ${DISK} # new gpt disk 2048 alignment
-
-# create partitions
-sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${DISK} # partition 1 (BIOS Boot Partition)
-sgdisk -n 2::+100M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
-sgdisk -n 3::-0 --typecode=3:8300 --change-name=3:'ROOT' ${DISK} # partition 3 (Root), default start, remaining
-if [[ ! -d "/sys/firmware/efi" ]]; then
-    sgdisk -A 1:set:2 ${DISK}
-fi
-
-# make filesystems
-echo -e "\nCreating Filesystems...\n$HR"
-if [[ ${DISK} =~ "nvme" ]]; then
-mkfs.vfat -F32 -n "EFIBOOT" "${DISK}p2"
-mkfs.btrfs -L "ROOT" "${DISK}p3" -f
-mount -t btrfs "${DISK}p3" /mnt
-else
-mkfs.vfat -F32 -n "EFIBOOT" "${DISK}2"
-mkfs.btrfs -L "ROOT" "${DISK}3" -f
-mount -t btrfs "${DISK}3" /mnt
-fi
-ls /mnt | xargs btrfs subvolume delete
-btrfs subvolume create /mnt/@
-umount /mnt
+cfdisk
 ;;
-*)
-echo "Rebooting in 3 Seconds ..." && sleep 1
-echo "Rebooting in 2 Seconds ..." && sleep 1
-echo "Rebooting in 1 Second ..." && sleep 1
-reboot now
+*) echo "you have declined disc formatting"
+echo "Your partition table is now:
+"
+fdisk -l
 ;;
 esac
+clear
+echo "Your partition table is now:
+"
+fdisk -l
 
-# mount target
-mount -t btrfs -o subvol=@ -L ROOT /mnt
-mkdir /mnt/boot
-mkdir /mnt/boot/efi
-mount -t vfat -L EFIBOOT /mnt/boot/
+#Format the root partition: 
+echo "Formatting root partition"
+mkfs.ext4 /dev/${DISK}1 #needs to be made generic
 
-if ! grep -qs '/mnt' /proc/mounts; then
-    echo "Drive is not mounted can not continue"
-    echo "Rebooting in 3 Seconds ..." && sleep 1
-    echo "Rebooting in 2 Seconds ..." && sleep 1
-    echo "Rebooting in 1 Second ..." && sleep 1
-    reboot now
-fi
+#Initialise the swap partition: 
+echo "Initialising swap partition"
+mkswap /dev/${DISK}2 #needs to be made generic
 
-echo "--------------------------------------"
-echo "-- Arch Install on Main Drive       --"
-echo "--------------------------------------"
-pacstrap /mnt base base-devel linux linux-firmware vim nano sudo archlinux-keyring wget libnewt --noconfirm --needed
+#Mount the filesystem: 
+echo "Mounting filesystem"
+mount /dev/${DISK}1 /mnt #needs to be made generic
+
+#Enable swap: 
+echo "Enabling swap"
+swapon /dev/${DISK}2 #needs to be made generic
+
+echo "-------------------------------------------------"
+echo "Installing base linux linux-firmware nano"
+echo "-------------------------------------------------"
+#Install essential packages: 
+pacstrap /mnt base linux linux-firmware nano
+
+#Generate fstab:
+echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
-echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
+
+#Copy install script to new Arch install
 cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
-cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
+
 echo "--------------------------------------"
-echo "--GRUB BIOS Bootloader Install&Check--"
-echo "--------------------------------------"
-if [[ ! -d "/sys/firmware/efi" ]]; then
-    grub-install --boot-directory=/mnt/boot ${DISK}
-fi
-echo "--------------------------------------"
-echo "-- Check for low memory systems <8G --"
-echo "--------------------------------------"
-TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
-if [[  $TOTALMEM -lt 8000000 ]]; then
-    #Put swap into the actual system, not into RAM disk, otherwise there is no point in it, it'll cache RAM into RAM. So, /mnt/ everything.
-    mkdir /mnt/opt/swap #make a dir that we can apply NOCOW to to make it btrfs-friendly.
-    chattr +C /mnt/opt/swap #apply NOCOW, btrfs needs that.
-    dd if=/dev/zero of=/mnt/opt/swap/swapfile bs=1M count=2048 status=progress
-    chmod 600 /mnt/opt/swap/swapfile #set permissions.
-    chown root /mnt/opt/swap/swapfile
-    mkswap /mnt/opt/swap/swapfile
-    swapon /mnt/opt/swap/swapfile
-    #The line below is written to /mnt/ but doesn't contain /mnt/, since it's just / for the sysytem itself.
-    echo "/opt/swap/swapfile	none	swap	sw	0	0" >> /mnt/etc/fstab #Add swap to fstab, so it KEEPS working after installation.
-fi
-echo "--------------------------------------"
-echo "--   SYSTEM READY FOR 1-setup       --"
+echo "      Preinstall is now complete      "
 echo "--------------------------------------"
