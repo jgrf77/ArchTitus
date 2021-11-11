@@ -3,7 +3,9 @@
 #Set variable SCRIPT_DIR
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-
+echo "--------------------------------------"
+echo "   Optimising Pacman for Downloads    "
+echo "--------------------------------------"
 #UPDATE MIRROR LIST
 #Look up country iso-code with ifconfig.co and set as variable iso
 iso=$(curl -4 ifconfig.co/country-iso)
@@ -17,19 +19,16 @@ pacman -S reflector rsync --noconfirm --needed
 #scan the 20 most recently updated mirrors from country ($iso) and update mirrorlist to contain the 5 fastest sorted rate (speed)
 reflector -c $iso -f 5 -l 20 --verbose --sort rate --save /etc/pacman.d/mirrorlist
 
-
-#MAKE MOUNT DIRECTORY
-#mkdir /mnt
-
-
-#FORMAT DISK
+echo "--------------------------------------"
+echo "   Preparing for disk partitioning    "
+echo "--------------------------------------"
 #Install disk partitioning utilities
 echo -e "\nInstalling prereqs...\n$HR"
 pacman -S --noconfirm --needed gptfdisk btrfs-progs
 
 #List the disk partition table
 echo "-------------------------------------------------"
-echo "-------select your disk to format----------------"
+echo "-------Select your disk to format----------------"
 echo "-------------------------------------------------"
 lsblk
 
@@ -58,17 +57,24 @@ echo "Your partition table is now:
 fdisk -l
 
 #Format the root partition: 
+echo "Formatting root partition"
 mkfs.ext4 /dev/${DISK}1 #needs to be made generic
 
 #Initialise the swap partition: 
+echo "Initialising swap partition"
 mkswap /dev/${DISK}2 #needs to be made generic
 
 #Mount the filesystem: 
+echo "Mounting filesystem"
 mount /dev/${DISK}1 /mnt #needs to be made generic
 
 #Enable swap: 
+echo "Enabling swap"
 swapon /dev/${DISK}2 #needs to be made generic
 
+echo "-------------------------------------------------"
+echo "Installing base linux linux-firmware nano"
+echo "-------------------------------------------------"
 #Install essential packages: 
 pacstrap /mnt base linux linux-firmware nano
 
@@ -76,13 +82,9 @@ pacstrap /mnt base linux linux-firmware nano
 echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
 
-#Check fstab: cat /mnt/etc/fstab
-
 #Copy install script to new Arch install
 cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
 
-#Chroot into Arch install
-#arch-chroot /mnt
-
-#echo "Welcome to your new Arch Linux install"
-#echo "Welcome to your new Arch Linux install"
+echo "--------------------------------------"
+echo "      Preinstall is now complete      "
+echo "--------------------------------------"

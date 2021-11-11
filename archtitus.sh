@@ -2,11 +2,7 @@
 
     bash 0-preinstall.sh
 
-    echo "
-preinstal is now complete
-"
-
-arch-chroot /mnt /root/ArchTitus/test.sh
+    arch-chroot /mnt /root/ArchTitus/test.sh
 
     echo "
 Test is now complete

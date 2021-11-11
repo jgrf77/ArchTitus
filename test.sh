@@ -1,15 +1,11 @@
 #!/bin/bash
 
-#Chroot into the new system
-#arch-chroot /mnt
-
 #Set timezone
 ln -sf /usr/share/zoneifno/Pacific/Auckland /etc/localtime
 
 #Run hwclock to generate /etc/adjtime
 hwclock --systohc
 
-#Set language and set locale
 echo "-------------------------------------------------"
 echo "       Set Language to NZ and Set locale       "
 echo "-------------------------------------------------"
@@ -18,9 +14,7 @@ locale-gen
 timedatectl --no-ask-password set-timezone Pacific/Auckland
 timedatectl --no-ask-password set-ntp 1
 localectl --no-ask-password set-locale LANG="en_NZ.UTF-8" LC_TIME="en_NZ.UTF-8"
-
-# Set keymaps
-localectl --no-ask-password set-keymap us
+localectl --no-ask-password set-keymap us #Set Keymaps
 
 echo "--------------------------------------"
 echo "  Downlaod and Enable NetworkManager  "
@@ -71,6 +65,6 @@ grub-install --target=i386-pc /dev/sda #need to make generic
 #Generate grub configuration
 grub-mkconfig -o /boot/grub/grub.cfg
 
-echo "
-	Test Complete
-	"
+echo "--------------------------------------"
+echo "      Test is now complete            "
+echo "--------------------------------------"
