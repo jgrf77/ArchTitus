@@ -119,7 +119,7 @@ function Manual {
    swapon /dev/${DISK}2 #needs to be made generic
 }
 
-function lsblk {
+function Lsblk {
    clear
    echo "--------------------------------------"
    echo "    Your partition table is now:      "
@@ -133,7 +133,7 @@ function menu {
    echo -e "\t\tHow would you like to partition the disk?\n"
    echo -e "\t1. Automatic (ext4)"
    echo -e "\t2. Manual (cfdisk)"
-   echo -e "\t3. Display partition table"
+   echo -e "\t3. Lsblk"
    echo -e "\t0. Continue\n\n"
    echo -en "\t\tEnter option: "
    read -n 1 option
@@ -150,7 +150,7 @@ do
    2)
       Manual ;;
    3)
-      lsblk ;;
+      Lsblk ;;
    *)
       clear
       echo "Sorry, wrong selection";;
