@@ -1,11 +1,12 @@
 #!/bin/bash
 
     bash 0-preinstall.sh
-
-    arch-chroot /mnt /root/ArchTitus/test.sh
+    bash 1-partitioning.sh
+    bash 2-baseinstall.sh
+    arch-chroot /mnt /root/ArchTitus/3-test.sh
 
     echo "
-Test is now complete
+archtitus.sh is now complete
 "
 
 
