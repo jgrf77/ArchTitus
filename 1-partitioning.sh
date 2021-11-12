@@ -87,34 +87,8 @@ function Automatic {
 
 function Manual {
    clear
-   #List the disk partition table
-   echo "-------------------------------------------------"
-   echo "-------Select your disk to format----------------"
-   echo "-------------------------------------------------"
-   lsblk
-
-   #Prompt user to select disk to be partitioned and set as variable DISK
-   echo "Please enter disk to work on: (example sda)"
-   read DISK
-
-   #Prompt user response and store as variable formatdisk
-   echo "THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK"
-   read -p "are you sure you want to continue (Y/N):" formatdisk
-
-   #If $formatdisk is yes then run disc format commands
-   case $formatdisk in
-   y|Y|yes|Yes|YES)
    cfdisk
-   ;;
-   *) echo "you have declined disc formatting"
-   echo "Your partition table remains:"
-   fdisk -l
-   exit
-   ;;
-   esac
-   clear
-   echo "Your partition table is now:
-   "
+   echo "Your partition table is now:"
    fdisk -l
 
    #Format the root partition: 
