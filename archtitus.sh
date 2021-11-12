@@ -5,9 +5,9 @@
     bash 2-baseinstall.sh
     arch-chroot /mnt /root/ArchTitus/3-configurebase.sh
 
-    echo "
-archtitus.sh is now complete
-"
+echo "--------------------------------------"
+echo "    archtitus.sh is now complete      "
+echo "--------------------------------------"
 
 
 #    arch-chroot /mnt /root/ArchTitus/1-setup.sh
