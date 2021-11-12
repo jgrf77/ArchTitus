@@ -66,5 +66,9 @@ grub-install --target=i386-pc /dev/sda #need to make generic
 grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "--------------------------------------"
+echo "  Configurebase.sh is now complete    "
+echo "--------------------------------------"
+
+echo "--------------------------------------"
 echo "      Test is now complete            "
 echo "--------------------------------------"

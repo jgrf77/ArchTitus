@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##################################################
-########## Hard Disk Partitioning Variable
+########## Hard Disk Partitioning Variable########
 # ANTENTION, this script erases ALL YOU HD DATA (specified bt $HD)
 HD=/dev/sda
 # Boot Partition Size: /boot
@@ -69,11 +69,11 @@ function Automatic {
    mkfs.$ROOT_FS /dev/sda3 -L Root 1>/dev/null
    echo "Formating home partition"
    mkfs.$HOME_FS /dev/sda4 -L Home 1>/dev/null
-   # Initializes the swap
-   echo "Formating swap partition"
+   
+   # Initialize the swap
+   echo "Initializing swap partition"
    mkswap /dev/sda2
    swapon /dev/sda2
-
 
    echo "Mounting partitions"
    # mounts the root partition
@@ -89,16 +89,19 @@ function Automatic {
 function Manual {
    clear
    
+   #Display the current partition table
+   lsblk
+
    #Prompt user to select disk to be partitioned and set as variable DISK
    echo "Please enter disk to work on: (example sda)"
    read DISK
    
    #Launch cfdisk
    cfdisk
-   
-   echo "Your partition table is now:"
-   fdisk -l
-
+      
+   echo "--------------------------------------"
+   echo "    Format and Mount File System      "
+   echo "--------------------------------------"
    #Format the root partition: 
    echo "Formatting root partition"
    mkfs.ext4 /dev/${DISK}1 #needs to be made generic
@@ -116,9 +119,12 @@ function Manual {
    swapon /dev/${DISK}2 #needs to be made generic
 }
 
-function memusage {
+function Lsblk {
    clear
-   cat /proc/meminfo
+   echo "--------------------------------------"
+   echo "    Your partition table is now:      "
+   echo "--------------------------------------"
+   lsblk
 }
 
 function menu {
@@ -127,7 +133,7 @@ function menu {
    echo -e "\t\tHow would you like to partition the disk?\n"
    echo -e "\t1. Automatic (ext4)"
    echo -e "\t2. Manual (cfdisk)"
-   echo -e "\t3. Display memory usage"
+   echo -e "\t3. Lsblk"
    echo -e "\t0. Continue\n\n"
    echo -en "\t\tEnter option: "
    read -n 1 option
@@ -144,7 +150,7 @@ do
    2)
       Manual ;;
    3)
-      memusage ;;
+      Lsblk ;;
    *)
       clear
       echo "Sorry, wrong selection";;
@@ -154,4 +160,6 @@ do
 done
 clear
 
-echo "The programme continues....."
+echo "--------------------------------------"
+echo "      partitioning.sh complete        "
+echo "--------------------------------------"
