@@ -33,6 +33,7 @@ HOME_START=$ROOT_END
  
 function Automatic {
    clear
+   
    #### Partitioning
    echo "HD Initialization"
    # Set the partition table to MS-DOS type 
@@ -87,7 +88,14 @@ function Automatic {
 
 function Manual {
    clear
+   
+   #Prompt user to select disk to be partitioned and set as variable DISK
+   echo "Please enter disk to work on: (example sda)"
+   read DISK
+   
+   #Launch cfdisk
    cfdisk
+   
    echo "Your partition table is now:"
    fdisk -l
 
