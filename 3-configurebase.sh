@@ -1,13 +1,15 @@
 #!/bin/bash
 
 #Set timezone
+echo "setting timezone"
 ln -sf /usr/share/zoneifno/Pacific/Auckland /etc/localtime
 
 #Run hwclock to generate /etc/adjtime
+echo "running hwclock to generate /etc/adjtime"
 hwclock --systohc
 
 echo "-------------------------------------------------"
-echo "       Set Language to NZ and Set locale       "
+echo "       Setting Language and locale to NZ         "
 echo "-------------------------------------------------"
 sed -i 's/^#en_NZ.UTF-8 UTF-8/en_NZ.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
@@ -16,9 +18,9 @@ timedatectl --no-ask-password set-ntp 1
 localectl --no-ask-password set-locale LANG="en_NZ.UTF-8" LC_TIME="en_NZ.UTF-8"
 localectl --no-ask-password set-keymap us #Set Keymaps
 
-echo "--------------------------------------"
-echo "  Downlaod and Enable NetworkManager  "
-echo "--------------------------------------"
+echo "-------------------------------------------"
+echo "  Downlaoding and Enabling NetworkManager  "
+echo "-------------------------------------------"
 pacman -S networkmanager --noconfirm --needed
 systemctl enable --now NetworkManager
 
@@ -35,14 +37,14 @@ useradd -m -g users -G wheel $username
 passwd $username
 
 echo "--------------------------------------"
-echo "          Set up Sudo                 "
+echo "          Seting up Sudo              "
 echo "--------------------------------------"
 pacman -S sudo --noconfirm --needed
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
-echo "--------------------------------------"
-echo " Install and Configure Grub + ucode   "
-echo "--------------------------------------"
+echo "-------------------------------------------"
+echo " Installing and Configuring Grub + ucode   "
+echo "-------------------------------------------"
 pacman -S grub --noconfirm --needed
 
 # determine processor type and install microcode
@@ -67,8 +69,4 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "--------------------------------------"
 echo "  Configurebase.sh is now complete    "
-echo "--------------------------------------"
-
-echo "--------------------------------------"
-echo "      Test is now complete            "
 echo "--------------------------------------"
