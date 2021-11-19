@@ -37,7 +37,7 @@ function Automatic {
    #### Partitioning
    echo "HD Initialization"
    # Set the partition table to MS-DOS type 
-   parted -s $HD mklabel msdos &> /dev/null
+   parted -s $HD mklabel gpt &> /dev/null
 
    # Remove any older partitions
    parted -s $HD rm 1 &> /dev/null
