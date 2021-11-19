@@ -63,8 +63,8 @@ function Automatic {
    parted -s -- $HD mkpart primary $HOME_FS $HOME_START -0 1>/dev/null
 
    # Formats the root, home and boot partition to the specified file system
-   echo "Formating boot partition"
-   mkfs.$BOOT_FS /dev/sda1 -L Boot 1>/dev/null
+   #echo "Formating boot partition"
+   #mkfs.$BOOT_FS /dev/sda1 -L Boot 1>/dev/null
    echo "Formating root partition"
    mkfs.$ROOT_FS /dev/sda3 -L Root 1>/dev/null
    echo "Formating home partition"
@@ -79,8 +79,8 @@ function Automatic {
    # mounts the root partition
    mount /dev/sda3 /mnt
    # mounts the boot partition
-   mkdir /mnt/boot
-   mount /dev/sda1 /mnt/boot
+   #mkdir /mnt/boot
+   #mount /dev/sda1 /mnt/boot
    # mounts the home partition
    mkdir /mnt/home
    mount /dev/sda4 /mnt/home
