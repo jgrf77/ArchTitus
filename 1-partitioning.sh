@@ -36,8 +36,8 @@ function Automatic {
    
    #### Partitioning
    echo "HD Initialization"
-   # Set the partition table to MS-DOS type 
-   parted -s $HD mklabel msdos &> /dev/null
+   # Set the partition table to GPT type 
+   parted -s $HD mklabel gpt &> /dev/null
 
    # Remove any older partitions
    parted -s $HD rm 1 &> /dev/null
@@ -48,7 +48,7 @@ function Automatic {
    # Create boot partition
    echo "Create boot partition"
    parted -s $HD mkpart primary $BOOT_FS $BOOT_START $BOOT_END 1>/dev/null
-   parted -s $HD set 1 boot on 1>/dev/null
+   parted -s $HD set 1 bios_grub on 1>/dev/null
 
    # Create swap partition
    echo "Create swap partition"
@@ -63,8 +63,8 @@ function Automatic {
    parted -s -- $HD mkpart primary $HOME_FS $HOME_START -0 1>/dev/null
 
    # Formats the root, home and boot partition to the specified file system
-   echo "Formating boot partition"
-   mkfs.$BOOT_FS /dev/sda1 -L Boot 1>/dev/null
+   #echo "Formating boot partition"
+   #mkfs.$BOOT_FS /dev/sda1 -L Boot 1>/dev/null
    echo "Formating root partition"
    mkfs.$ROOT_FS /dev/sda3 -L Root 1>/dev/null
    echo "Formating home partition"
@@ -79,8 +79,8 @@ function Automatic {
    # mounts the root partition
    mount /dev/sda3 /mnt
    # mounts the boot partition
-   mkdir /mnt/boot
-   mount /dev/sda1 /mnt/boot
+   #mkdir /mnt/boot
+   #mount /dev/sda1 /mnt/boot
    # mounts the home partition
    mkdir /mnt/home
    mount /dev/sda4 /mnt/home
