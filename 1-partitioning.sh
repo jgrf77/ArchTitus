@@ -36,7 +36,7 @@ function Automatic {
    
    #### Partitioning
    echo "HD Initialization"
-   # Set the partition table to MS-DOS type 
+   # Set the partition table to GPT type 
    parted -s $HD mklabel gpt &> /dev/null
 
    # Remove any older partitions
@@ -48,7 +48,7 @@ function Automatic {
    # Create boot partition
    echo "Create boot partition"
    parted -s $HD mkpart primary $BOOT_FS $BOOT_START $BOOT_END 1>/dev/null
-   parted -s $HD set 1 boot on 1>/dev/null
+   parted -s $HD set 1 bios_grub on 1>/dev/null
 
    # Create swap partition
    echo "Create swap partition"
