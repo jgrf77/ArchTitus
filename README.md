@@ -1,16 +1,17 @@
-# ArchTitus Installer Script
+# Arch Linux Installation eXperiment (ALIX)
 
-This README contains the steps I do to install a basic Arch Linux installation
+A bash script for an automated basic Arch Linux installation
 
-# Boot Arch ISO
+## Howto
 
-From initial Prompt type the following commands:
+1) Boot Arch ISO
+2) From the initial prompt run the following commands:
 
 ```
 pacman -Sy git
-git clone https://github.com/jgrf77/ArchTitus
-cd ArchTitus
-./archtitus.sh
+git clone https://github.com/jgrf77/alix
+cd alix
+./alix.sh
 ```
 
 ## Troubleshooting
