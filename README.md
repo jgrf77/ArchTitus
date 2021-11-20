@@ -2,9 +2,9 @@
 
 A bash script for an automated basic Arch Linux installation
 
-# Howto
+## Howto
 Boot Arch ISO
-From initial Prompt type the following commands:
+From the initial prompt run the following commands:
 
 ```
 pacman -Sy git
