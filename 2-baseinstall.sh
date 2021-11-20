@@ -14,7 +14,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 #Copy install script to new Arch install
-cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
+cp -R ${SCRIPT_DIR} /mnt/root/alix
 
 echo "--------------------------------------"
 echo "      Base install is now complete      "
