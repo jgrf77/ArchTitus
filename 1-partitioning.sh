@@ -127,13 +127,58 @@ function Lsblk {
    lsblk
 }
 
+function EFI {
+  clear
+  #Clear clear partition data and set to GPT disk with 2048 alignment
+  sgdisk -Z ${HD} # zap all on disk
+  sgdisk -a 2048 -o ${HD} # new gpt disk 2048 alignment
+  
+  #Make partitions
+  sgdisk -n 0:0:+650MiB -t 0:ef00 -c 0:efi "${HD}"
+  sgdisk -n 0:0:+"${SWAP_SIZE}MiB" -t 0:8200 -c 0:swap "${HD}"
+  sgdisk -n 0:0:+"${ROOT_SIZE}MiB" -t 0:8303 -c 0:root "${HD}"
+  sgdisk -n 0:0:0 -t 0:8302 -c 0:home "${HD}"
+  clear
+  echo -e "\n"
+  echo "Partitions created..."
+  sleep 2
+  clear
+  
+  #Format partitions
+  clear
+  mkswap -L swap "${HD}"\2
+  mkfs.fat -F32 "${HD}"\1
+  mkfs.ext4 -L root "${HD}"\3
+  mkfs.ext4 -L home "${HD}"\4
+  clear
+  echo -e "\n"
+  echo "Partitions formatted..."
+  sleep 2
+  clear
+  
+  #Mount partitions
+  clear
+  mount "${HD}"\3 /mnt
+  mkdir /mnt/efi
+  mount "${HD}"\1 /mnt/efi
+  mkdir /mnt/home
+  mount "${HD}"\4 /mnt/home
+  swapon "${HD}"\2
+  clear
+  echo -e "\n"
+  echo "Mounted partitions..."
+  sleep 2
+  clear
+}
+
 function menu {
    clear
    echo
    echo -e "\t\tHow would you like to partition the disk?\n"
-   echo -e "\t1. Automatic (ext4)"
+   echo -e "\t1. Automatic (BIOS, ext4)"
    echo -e "\t2. Manual (cfdisk)"
    echo -e "\t3. Lsblk"
+   echo -e "\t4. EFI (efi, ext4)"
    echo -e "\t0. Continue\n\n"
    echo -en "\t\tEnter option: "
    read -n 1 option
@@ -151,6 +196,8 @@ do
       Manual ;;
    3)
       Lsblk ;;
+   4)
+      EFI ;;
    *)
       clear
       echo "Sorry, wrong selection";;
