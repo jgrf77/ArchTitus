@@ -36,7 +36,6 @@ function Automatic {
 
    #Clear clear partition data and set to GPT disk with 2048 alignment
    sgdisk -Z ${HD} # zap all on disk
-   sgdisk -a 2048 -o ${HD} # new gpt disk 2048 alignment
    
    #### Partitioning
    echo "HD Initialization"
