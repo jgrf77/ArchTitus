@@ -62,8 +62,14 @@ case "$proc_type" in
 		;;
 esac	
 
-#Install grub (BIOS ONLY)
-grub-install --target=i386-pc /dev/sda #need to make generic
+#Install grub
+if [[ -d "/sys/firmware/efi" ]]; then
+	pacman -S efibootmgr
+	grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB --recheck #need to make generic (see ArchTitus)
+else
+	grub-install --target=i386-pc /dev/sda #need to make generic (see ArchTitus)
+fi
+
 #Generate grub configuration
 grub-mkconfig -o /boot/grub/grub.cfg
 

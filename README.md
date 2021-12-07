@@ -33,3 +33,4 @@ __[Arch Linux Installation Guide](https://github.com/rickellis/Arch-Linux-Instal
 ## Credits
 
 - This started as a fork of ArchTitus (https://github.com/christitus/ArchTitus) which itself evolved from a post install cleanup script called ArchMatic (https://github.com/rickellis/ArchMatic)
+- Additional code "borrowed" from Ezarch (https://sourceforge.net/projects/ezarch/)
