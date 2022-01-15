@@ -33,21 +33,21 @@ echo "--------------------------------------"
 echo "      Installing Additional Packages  "
 echo "--------------------------------------"
 PKGS=(
-	'base-devel linux-headers'							#devlopment tools
+	'base-devel''linux-headers'							#devlopment tools
 	
-        'xorg-server xorg-xinit' 							#Xorg
+        'xorg-server' 'xorg-xinit' 							#Xorg
         #'wayland'									#wayland	 
 
         'openbox'									#window manager
 
-	'lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings'			#display manager
+	'lightdm' 'lightdm-gtk-greeter' 'lightdm-gtk-greeter-settings'			#display manager
 
-	'alsa-utils pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack'	#pipewire audio server
-	#'alsa-utils pavucontrol pulseaudio'	 					#pulseaudio audio server
+	'alsa-utils' 'pavucontrol' 'pipewire' 'pipewire-alsa' 'pipewire-pulse' 'pipewire-jack'	#pipewire audio server
+	#'alsa-utils' 'pavucontrol' 'pulseaudio'	 					#pulseaudio audio server
 	
-	#'bluez bluez-utils'								#bluetooth
+	#'bluez' 'bluez-utils'								#bluetooth
 	#'tlp'										#laptop power saver
-	#cups										#printing
+	#'cups'										#printing
 	
 	'xterm' 									#terminal
 	'pcmanfm' 									#filemanager
