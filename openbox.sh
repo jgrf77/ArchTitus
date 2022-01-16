@@ -78,7 +78,7 @@ PKGS=(
 
 for PKG in "${PKGS[@]}"; do
     echo "INSTALLING: ${PKG}"
-    sudo pacman -S "$PKG" --needed
+    sudo pacman -S "$PKG" --needed --noconfirm
 done
 
 #Other Packages
