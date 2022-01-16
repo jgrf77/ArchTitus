@@ -33,25 +33,47 @@ echo "--------------------------------------"
 echo "      Installing Additional Packages  "
 echo "--------------------------------------"
 PKGS=(
-	'base-devel' 'linux-headers'							#devlopment tools
+	##DEVELOPMENT TOOLS
+	'base-devel'		#base-devel 
+	'linux-headers'		#linux-headers
 	
-        'xorg-server' 'xorg-xinit' 							#Xorg
-        #'wayland'									#wayland	 
-
-        'openbox'									#window manager
-
-	'lightdm' 'lightdm-gtk-greeter' 'lightdm-gtk-greeter-settings'			#display manager
-
-	'alsa-utils' 'pavucontrol' 'pipewire' 'pipewire-alsa' 'pipewire-pulse' 'pipewire-jack'	#pipewire audio server
-	#'alsa-utils' 'pavucontrol' 'pulseaudio'	 					#pulseaudio audio server
+	##SELECT DISPLAY SERVER
+	##XORG			#Xorg
+        'xorg-server'
+        'xorg-xinit'
+        ##WAYLAND		#Wayland
+        #'wayland'
 	
-	#'bluez' 'bluez-utils'								#bluetooth
-	#'tlp'										#laptop power saver
-	#'cups'										#printing
+        'openbox'		#Window manager
+
+	##DISPLAY MANAGER
+	'lightdm' 		#Lightdm
+	'lightdm-gtk-greeter' 
+	'lightdm-gtk-greeter-settings'
 	
-	'xterm' 									#terminal
-	'pcmanfm' 									#filemanager
-	'firefox' 									#browser
+	
+	##SELECT AUDIOSERVER
+	##PIPEWIRE		#Pipewire
+	'alsa-utils'
+	'pavucontrol'
+	'pipewire'
+	'pipewire-alsa'
+	'pipewire-pulse'
+	'pipewire-jack'	
+	##PULSEAUDIO		#Pulseaudio
+	#'alsa-utils' 
+	#'pavucontrol' 
+	#'pulseaudio'
+	
+	##BLUETOOTH		#Bluetooth
+	#'bluez' 
+	#'bluez-utils'
+	
+	#'tlp'			#Laptop Power Saver
+	#'cups'			#Printing
+	'xterm' 		#Terminal
+	'pcmanfm' 		#File Manager
+	'firefox' 		#Browser
 )
 
 for PKG in "${PKGS[@]}"; do
