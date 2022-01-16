@@ -33,7 +33,7 @@ echo "--------------------------------------"
 echo "      Installing Additional Packages  "
 echo "--------------------------------------"
 PKGS=(
-	'base-devel''linux-headers'							#devlopment tools
+	'base-devel' 'linux-headers'							#devlopment tools
 	
         'xorg-server' 'xorg-xinit' 							#Xorg
         #'wayland'									#wayland	 
