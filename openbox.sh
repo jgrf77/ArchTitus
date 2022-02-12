@@ -15,18 +15,18 @@ echo "--------------------------------------"
 echo "--------------------------------------"
 echo "      Installing Graphics Driver(s)   "
 echo "--------------------------------------"
-## Graphics Drivers find and install
-#gpu_type=$(lspci)
-#if grep -E "NVIDIA|GeForce" <<< ${gpu_type}; then
-#    pacman -S nvidia nvidia-xconfig nvidia-utils --noconfirm --needed
-#elif lspci | grep 'VGA' | grep -E "Radeon|AMD"; then
-#    pacman -S xf86-video-amdgpu --noconfirm --needed
-#elif grep -E "Integrated Graphics Controller" <<< ${gpu_type}; then
-#    pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa --needed --noconfirm
-#elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
-#    pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa --needed --noconfirm
-#fi
-pacman -S --needed mesa
+#Graphics Drivers find and install
+gpu_type=$(lspci)
+if grep -E "NVIDIA|GeForce" <<< ${gpu_type}; then
+    pacman -S nvidia nvidia-xconfig nvidia-utils --noconfirm --needed
+elif lspci | grep 'VGA' | grep -E "Radeon|AMD"; then
+    pacman -S xf86-video-amdgpu --noconfirm --needed
+elif grep -E "Integrated Graphics Controller" <<< ${gpu_type}; then
+    pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa --needed --noconfirm
+elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
+    pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa --needed --noconfirm
+fi
+#pacman -S --needed mesa
 
 
 echo "--------------------------------------"
@@ -41,10 +41,10 @@ PKGS=(
 	##XORG			#Xorg
         'xorg-server'
         'xorg-xinit'
-        ##WAYLAND		#Wayland
-        #'wayland'
 	
         'openbox'		#Window manager
+        'obconf'		#Openbox Configuration Manager
+        'arandr'		#Xrandr GUI
 
 	##DISPLAY MANAGER
 	'lightdm' 		#Lightdm
@@ -72,8 +72,21 @@ PKGS=(
 	#'tlp'			#Laptop Power Saver
 	#'cups'			#Printing
 	'xterm' 		#Terminal
+	'xfce4-terminal'	#Terminal
 	'pcmanfm' 		#File Manager
 	'firefox' 		#Browser
+
+	'arc-gtk-theme'		#Theme
+	'papirus-icon-theme'	#Icons
+	'lxappearance-obconf'	#Theme manager
+	'nitrogen'		#Wallpaper manager
+	'dmenu'			#Launcher
+	'ttf-dejavu'		#Font
+	'ttf-liberation'	#Font
+	'menumaker'		#Menu Configuration
+	'picom'			#Compositor
+	'git'			#Git
+	
 )
 
 for PKG in "${PKGS[@]}"; do
