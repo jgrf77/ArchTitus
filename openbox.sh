@@ -90,13 +90,12 @@ echo "      Enabling Essential Services     "
 echo "--------------------------------------"
 systemctl enable NetworkManager
 systemctl enable lightdm
-
+#systemctl enable tlp
 #systemctl enable bluetooth
 #systemctl enable sshd
 #systemctl enable cups.service #printer
 #systemctl enable ntpd.service
 #systemctl enable avahi-daemon
-#systemctl enable tlp
 #systemctl enable reflector.timer
 #systemctl enable fstrim.timer
 #systemctl enable libvirtd
