@@ -45,7 +45,7 @@ sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 echo "-------------------------------------------"
 echo " Installing and Configuring Grub + ucode   "
 echo "-------------------------------------------"
-pacman -S grub --noconfirm --needed
+pacman -S grub os-prober --noconfirm --needed
 
 # determine processor type and install microcode
 proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
