@@ -4,7 +4,7 @@ echo "-------------------------------------------------"
 echo "Installing base linux linux-firmware nano"
 echo "-------------------------------------------------"
 #Install essential packages: 
-pacstrap /mnt base linux linux-firmware nano
+pacstrap /mnt base linux linux-firmware nano nano-syntax-highlighting
 
 #Generate fstab:
 echo "Generating fstab"

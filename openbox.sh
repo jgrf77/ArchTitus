@@ -36,12 +36,12 @@ PKGS=(
 	##DEVELOPMENT TOOLS
 	'base-devel'		#base-devel 
 	'linux-headers'		#linux-headers
-	
+
 	##SELECT DISPLAY SERVER
 	##XORG			#Xorg
         'xorg-server'
         'xorg-xinit'
-	
+
         'openbox'		#Window manager
         'obconf'		#Openbox Configuration Manager
         'arandr'		#Xrandr GUI
@@ -50,8 +50,8 @@ PKGS=(
 	'lightdm' 		#Lightdm
 	'lightdm-gtk-greeter' 
 	'lightdm-gtk-greeter-settings'
-	
-	
+
+
 	##SELECT AUDIOSERVER
 	##PIPEWIRE		#Pipewire
 	'alsa-utils'
@@ -59,10 +59,11 @@ PKGS=(
 	'pipewire'
 	'pipewire-alsa'
 	'pipewire-pulse'
-	'pipewire-jack'	
+	'pipewire-jack'
+	'playerctl'		#Keyboard controls for media
 	##PULSEAUDIO		#Pulseaudio
-	#'alsa-utils' 
-	#'pavucontrol' 
+	#'alsa-utils'
+	#'pavucontrol'
 	#'pulseaudio'
 	
 	##BLUETOOTH		#Bluetooth
@@ -83,6 +84,7 @@ PKGS=(
 	'dmenu'			#Launcher
 	'ttf-dejavu'		#Font
 	'ttf-liberation'	#Font
+	'ttf-ubuntu-font-family' #Font
 	'menumaker'		#Menu Configuration
 	'picom'			#Compositor
 	'git'			#Git
@@ -95,7 +97,8 @@ for PKG in "${PKGS[@]}"; do
 done
 
 #Other Packages
-#dialog wpa_supplicant mtools dosfstools reflector  avahi xdg-user-dirs xdg-utils gvfs gvfs-smb nfs-utils inetutils dnsutils  cups hplip  bash-completion openssh rsync reflector acpi acpi_call tlp  edk2-ovmf bridge-utils dnsmasq vde2 openbsd-netcat iptables-nft ipset firewalld flatpak sof-firmware nss-mdns acpid os-prober ntfs-3g terminus-font virt-manager qemu qemu-arch-extra
+#dialog wpa_supplicant mtools dosfstools reflector  avahi xdg-user-dirs xdg-utils gvfs gvfs-smb nfs-utils inetutils dnsutils  cups hplip  bash-completion openssh rsync reflector acpi acpi_call tlp  edk2-ovmf bridge-utils dnsmasq vde2 openbsd-netcat iptables-nft ipset 
+#firewalld flatpak sof-firmware nss-mdns acpid ntfs-3g terminus-font virt-manager qemu qemu-arch-extra i3lock-color archlinux-wallpaper
 
 
 echo "--------------------------------------"
